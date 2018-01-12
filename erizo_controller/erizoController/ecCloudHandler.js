@@ -37,6 +37,7 @@ exports.EcCloudHandler = function (spec) {
         // New agent
         agents[agent.info.id] = agent;
         agents[agent.info.id].timeout = 0;
+        agents[agent.info.id].rooms = [];
       }
 
     });
@@ -79,12 +80,12 @@ exports.EcCloudHandler = function (spec) {
     }});
   };
 
-  that.getErizoJS = function(callback) {
+  that.getErizoJS = function(roomId, callback) {
 
     var agentQueue = 'ErizoAgent';
 
     if (getErizoAgent) {
-      agentQueue = getErizoAgent(agents);
+      agentQueue = getErizoAgent(agents, roomId);
     }
 
     log.info('message: createErizoJS, agentId: ' + agentQueue);
@@ -93,6 +94,10 @@ exports.EcCloudHandler = function (spec) {
       var erizoId = resp.erizoId;
       var agentId = resp.agentId;
       log.info('message: createErizoJS success, erizoId: ' + erizoId + ', agentId: ' + agentId);
+
+      if (agents[agentId].rooms.indexOf(agentId) === -1) {
+        agents[agentId].rooms.push(roomId);
+      }
 
       if (resp === 'timeout') {
         tryAgain(0, agentId, callback);

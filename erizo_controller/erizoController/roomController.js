@@ -19,6 +19,7 @@ exports.RoomController = function (spec) {
 
     var amqper = spec.amqper;
     var ecch = spec.ecch;
+    var id = spec.id;
 
     var KEEPALIVE_INTERVAL = 5*1000;
     var TIMEOUT_LIMIT = 2;
@@ -71,7 +72,7 @@ exports.RoomController = function (spec) {
     setInterval(sendKeepAlive, KEEPALIVE_INTERVAL);
 
     var getErizoJS = function(callback) {
-    	ecch.getErizoJS(function(erizoId, agentId) {
+    	ecch.getErizoJS(id, function(erizoId, agentId) {
             if (!erizos[erizoId] && erizoId !== 'timeout') {
                 erizos[erizoId] = {publishers: [], kaCount: 0};
             }

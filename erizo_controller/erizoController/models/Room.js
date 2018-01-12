@@ -62,7 +62,7 @@ class Room extends events.EventEmitter {
   }
 
   setupRoomController() {
-    this.controller = controller.RoomController({amqper: this.amqper, ecch: this.ecch});
+    this.controller = controller.RoomController({amqper: this.amqper, ecch: this.ecch, id: this.id});
     this.controller.addEventListener(this.onRoomControllerEvent.bind(this));
   }
 
